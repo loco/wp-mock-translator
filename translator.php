@@ -21,7 +21,6 @@ function mock_translator_process_batch( array $sources, Loco_Locale $Locale, arr
  * @return string
  */
 function mock_translator_translate_text( $source ){
-    // TODO handle well-formed HTML
     $target = '';
     while( is_string($source) && '' !== $source ){
         // Protect URLs, printf formatting and HTML entities
@@ -32,8 +31,8 @@ function mock_translator_translate_text( $source ){
         ){
             $target .= $match[0];
         }
-        // else 'translate' if it looks wordy
-        else if( preg_match('/^[a-z]+/ui',$source,$match) ){
+        // else 'translate' if it looks wordy (ascii only here)
+        else if( preg_match('/^[a-z]+/i',$source,$match) ){
             $target .= mock_translator_translate_word($match[0]);
         }
         // else use whatever this is up to the next unicode character, which is probably punctuation.
@@ -58,6 +57,7 @@ function mock_translator_translate_text( $source ){
  * @return string
  */
 function mock_translator_translate_word( $source ){
+    // TODO string reverse needs to be utf8-safe
     $target = strrev($source);
     // reverse title casing if applicable
     if( preg_match('/^[A-Z][a-z]+/',$source) ){
