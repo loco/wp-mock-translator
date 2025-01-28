@@ -4,7 +4,8 @@ Plugin Name: Mock Translation API for Loco Translate
 Plugin URI: https://github.com/loco/wp-mock-translator
 Description: Example auto-translate plugin that produces well-formed nonsense
 Author: Tim Whitlock
-Version: 1.0.0
+Version: 1.1.0
+Requires Plugins: loco-translate
 Author URI: https://localise.biz/wordpress/plugin
 */
 if( is_admin() ){
@@ -15,8 +16,8 @@ if( is_admin() ){
         $apis[] = array (
             'id' => 'mock',
             'key' => 'must not be empty',
-            'url' => 'https://github.com/loco/wp-mock-translator',
             'name' => 'Mock translation API',
+            'url' => 'https://github.com/loco/wp-mock-translator',
         );
         return $apis;
     }
@@ -27,8 +28,8 @@ if( is_admin() ){
     // We only need to do this when the Loco Translate Ajax hook is running.
     function mock_translator_ajax_init(){
         require __DIR__.'/translator.php';
-        add_filter('loco_api_translate_mock','mock_translator_process_batch',0,3);
+        add_filter('loco_api_translate_mock','mock_translator_process_batch',0,4);
     }
     add_action('loco_api_ajax','mock_translator_ajax_init',0,0);
-    
+
 }

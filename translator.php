@@ -2,22 +2,22 @@
 /**
  * Hook fired as a filter for the "mock" translation api
  * 
- * @param string[] input strings
- * @param Loco_Locale target locale for translations
- * @param array our own api configuration
- * @return string[] output strings
+ * @param string[] $targets translated strings, initially empty
+ * @param string[][] $items input messages with keys, "source", "context" and "notes"
+ * @param Loco_Locale $Locale target locale for translations
+ * @param array $config This api's configuration
+ * @return string[] Translated strings
  */
-function mock_translator_process_batch( array $sources, Loco_Locale $Locale, array $config ){
-    $targets = array();
-    foreach( $sources as $i => $source ){
-        $targets[$i] = mock_translator_translate_text($source);
+function mock_translator_process_batch( array $targets, array $items, Loco_Locale $Locale, array $config ){
+    foreach( $items as $i => $item ){
+        $targets[$i] = mock_translator_translate_text($item['source']);
     }
     return $targets;
 }
 
 
 /**
- * @param string
+ * @param string $source
  * @return string
  */
 function mock_translator_translate_text( $source ){
